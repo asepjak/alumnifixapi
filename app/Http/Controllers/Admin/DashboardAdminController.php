@@ -13,6 +13,7 @@ class DashboardAdminController extends Controller
 {
     public function index(): View
     {
+        Log::debug('Session data:', session()->all());
         return view('pages.admin.dashboard');
     }
 
