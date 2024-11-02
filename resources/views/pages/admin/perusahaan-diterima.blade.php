@@ -37,11 +37,11 @@ Perusahaan
                                 <td>{{ $perusahaan['nama_perusahaan'] }}</td>
                                 <td>{{ $perusahaan['nib'] }}</td>
                                 <td>{{ $perusahaan['alamat'] }}</td>
-                                <td>{{ $perusahaan['email_perusahaan'] }}</td>
+                                <td>{{ $perusahaan['email'] }}</td>
                                 <td>{{ $perusahaan['sektor_bisnis'] }}</td>
                                 <td>{{ $perusahaan['deskripsi_perusahaan'] }}</td>
                                 <td>{{ $perusahaan['jumlah_karyawan'] }}</td>
-                                <td>{{ $perusahaan['no_telp'] }}</td>
+                                <td>{{ $perusahaan['no_tlp'] }}</td>
                                 <td>{{ $perusahaan['website_perusahaan'] }}</td>
                                 <td>{{ $perusahaan['status'] }}</td>
                             </tr>

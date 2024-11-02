@@ -38,13 +38,12 @@ class HomeController extends Controller
     {
         // Make a GET request to the lowongan API
         $response = Http::get('http://raishaapi3.v-project.my.id/api/lowongan'); // Adjust the URL as necessary
-
         // Check if the response was successful
         if ($response->successful()) {
             $data = $response->json(); // Decode the JSON response
 
             // Access the lowongan data
-            $loker = $data['loker']; // This contains the lowongan data
+            $loker = $data['data']; // This contains the lowongan data
 
             // Return a view with the lowongan data
             return view('pages.lowongan', [

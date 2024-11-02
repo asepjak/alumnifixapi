@@ -13,7 +13,7 @@ class BeritaController extends Controller
     public function index()
     {
         $client = new Client();
-        $url = "http://raishaapi3.v-project.my.id/api/berita/";
+        $url = "http://raishaapi3.v-project.my.id/api/berita";
         $response = $client->request('GET', $url);
         $content = $response->getBody()->getContents();
         $contentArray = json_decode($content, true);

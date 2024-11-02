@@ -10,6 +10,10 @@ use Illuminate\View\View;
 
 class RegisterController extends Controller
 {
+    public function index(): View
+    {
+        return view('pages.auth.register_user');
+    }
     public function indexAlumni(): View
     {
         return view('pages.auth.register_alumni');

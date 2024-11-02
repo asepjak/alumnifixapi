@@ -16,13 +16,21 @@ class DashboardAdminController extends Controller
         // Cek data
         // dd($response->json());
         $dataAlumni = $response->json();
+        $dataPerusahaan = $response2->json();
         $countAktif = 0;
         $countPasif = 0;
+        $countMenunggu = 0;
+        $countDitolak = 0;
+        $countDiterima = 0;
         for ($i = 0; $i < count($dataAlumni['data']); $i++ ) {
             $dataAlumni['data'][$i]['status'] == 'pasif' ? $countPasif += 1 : $countAktif += 1;
         }
+        for ($i = 0; $i < count($dataPerusahaan['data']); $i++ ) {
+            $dataPerusahaan['data'][$i]['status'] == 'menunggu' ? $countMenunggu += 1 :
+            ($dataPerusahaan['data'][$i]['status'] == 'ditolak' ? $countDitolak += 1 : $countDiterima += 1);
+        }
 
-        return view('pages.admin.dashboard');
+        return view('pages.admin.dashboard', compact(['countAktif', 'countPasif', 'countMenunggu', 'countDitolak', 'countDiterima']));
     }
 
 }

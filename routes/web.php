@@ -32,36 +32,37 @@ Route::get('/dashboard', function () {
     return redirect()->route('login'); // Redirect to login if no token
 })->name('dashboard');
 
-Route::get('login', [LoginController::class, 'index'])->name('login');
-Route::post('login', [LoginController::class, 'login'])->name('login.post');
+Route::get('login', [LoginController::class, 'index'])->name('login'); //done
+Route::post('login', [LoginController::class, 'login'])->name('login.post'); //done
 // Authentication Routes
 Route::middleware(CheckToken::class)->group(function () {
-    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+    Route::post('logout', [AuthController::class, 'logout'])->name('logout'); //done
 });
 
 // Public Routes
 Route::get('/', [HomeController::class, 'indexHome'])->name('home');
-Route::get('/loker', [HomeController::class, 'indexLoker'])->name('loker');
-Route::get('/alumni', [HomeController::class, 'indexAlumni'])->name('alumni');
+Route::get('/loker', [HomeController::class, 'indexLoker'])->name('loker'); //done
+Route::get('/alumni', [HomeController::class, 'indexAlumni'])->name('alumni'); //done
 
 // Registration Routes
-Route::get('register-perusahaan', [RegisterController::class, 'indexPerusahaan'])->name('indexPerusahaan');
-Route::get('register-alumni', [RegisterController::class, 'indexAlumni'])->name('indexAlumni');
-Route::post('register', [RegisterController::class, 'register'])->name('register');
+// Route::get('register-perusahaan', [RegisterController::class, 'indexPerusahaan'])->name('indexPerusahaan');
+// Route::get('register-alumni', [RegisterController::class, 'indexAlumni'])->name('indexAlumni');
+Route::get('register', [RegisterController::class, 'index'])->name('register'); // masi kacau di tampilan
+Route::post('register', [RegisterController::class, 'register'])->name('register'); //done
 // Route::post('register-perusahaan', [RegisterController::class, 'registerPerusahaan'])->name('registerPerusahaan');
 
 
 // Admin Routes
 Route::prefix('admin')->group(function () {
-    Route::get('dashboard', [DashboardAdminController::class, 'index'])->name('dashboardAdmin');
+    Route::get('dashboard', [DashboardAdminController::class, 'index'])->name('dashboardAdmin'); // done
 
     // Alumni Management
-    Route::get('alumni-aktif', [AdminAlumniController::class, 'alumniAktif'])->name('alumni-aktif');
-    Route::get('alumni-pasif', [AdminAlumniController::class, 'alumniPasif'])->name('alumni-pasif');
+    Route::get('alumni-aktif', [AdminAlumniController::class, 'alumniAktif'])->name('alumni-aktif'); //done
+    Route::get('alumni-pasif', [AdminAlumniController::class, 'alumniPasif'])->name('alumni-pasif'); //done
 
     // Perusahaan Management
-    Route::get('perusahaan-diterima', [AdminPerusahaanController::class, 'perusahaanDiterima'])->name('perusahaan-diterima');
-    Route::get('perusahaan-divalidasi', [AdminPerusahaanController::class, 'perusahaanDivalidasi'])->name('perusahaan-divalidasi');
+    Route::get('perusahaan-diterima', [AdminPerusahaanController::class, 'perusahaanDiterima'])->name('perusahaan-diterima'); //done
+    Route::get('perusahaan-divalidasi', [AdminPerusahaanController::class, 'perusahaanDivalidasi'])->name('perusahaan-divalidasi'); //done
 
     // Lowongan Management
     Route::get('lowongan-diterima', [AdminLowonganController::class, 'lowonganDiterima'])->name('lowongan-diterima');
@@ -82,6 +83,6 @@ Route::prefix('admin')->group(function () {
 
 // Perusahaan Routes
 Route::prefix('perusahaan')->group(function () {
-    Route::get('lowongan', [PerusahaanLowonganController::class, 'lowongan'])->name('lowongan.index');
-    Route::post('lowongan/tambah', [PerusahaanLowonganController::class, 'store'])->name('lowongan.store');
+    Route::get('lowongan', [PerusahaanLowonganController::class, 'lowongan'])->name('lowongan.index'); //done
+    Route::post('lowongan/tambah', [PerusahaanLowonganController::class, 'store'])->name('lowongan.store'); //done
 });

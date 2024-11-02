@@ -67,11 +67,14 @@
                                 </form>
                                 <hr>
                                 <div class="text-center">
+                                    <a href="{{route('register')}}" class="small">Daftar</a>
+                                </div>
+                                {{-- <div class="text-center">
                                     <a class="small" href="{{ route('indexAlumni') }}">Buat Akun Alumni!</a>
                                 </div>
                                 <div class="text-center">
                                     <a class="small" href="{{ route('indexPerusahaan') }}">Buat akun Perusahaan!</a>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>

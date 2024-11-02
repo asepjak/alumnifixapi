@@ -15,7 +15,13 @@ class AdminPerusahaanController extends Controller
         // Mengecek apakah permintaan berhasil
         if ($response->successful()) {
             // Mendapatkan data alumni dari respons
-            $perusahaanAktif = $response->json()['data']; // Mengambil data dari respons JSON
+            $data = $response->json()['data']; // Mengambil data dari respons JSON
+            $perusahaanAktif = [];
+
+            for ($i = 0; $i < count($data); $i++ ) {
+                $data[$i]['status'] == 'diterima' ? $perusahaanAktif[$i] = $data[$i] : '';
+            }
+
         } else {
             $perusahaanAktif = []; // Jika ada kesalahan, inisialisasi dengan array kosong
         }
@@ -25,17 +31,22 @@ class AdminPerusahaanController extends Controller
     }
     public function perusahaanDivalidasi()
     {
-        $response = Http::get('http://raishaapi3.v-project.my.id/api/perusahaan/divalidasi'); // Ganti dengan URL yang sesuai
+        $response = Http::get('http://raishaapi3.v-project.my.id/api/perusahaan'); // Ganti dengan URL yang sesuai
 
         // Mengecek apakah permintaan berhasil
         if ($response->successful()) {
             // Mendapatkan data alumni dari respons
-            $perusahaanDivalidasi = $response->json()['data']; // Mengambil data dari respons JSON
+            $data = $response->json()['data']; // Mengambil data dari respons JSON
+            $perusahaanMenunggu = [];
+
+            for ($i = 0; $i < count($data); $i++ ) {
+                $data[$i]['status'] == 'menunggu' ? $perusahaanMenunggu[$i] = $data[$i] : '';
+            }
         } else {
-            $perusahaanDivalidasi = []; // Jika ada kesalahan, inisialisasi dengan array kosong
+            $perusahaanMenunggu = []; // Jika ada kesalahan, inisialisasi dengan array kosong
         }
 
         // Mengembalikan tampilan dengan data alumni
-        return view('pages.admin.perusahaan-divalidasi', compact('perusahaanDivalidasi'));
+        return view('pages.admin.perusahaan-divalidasi', compact('perusahaanMenunggu'));
     }
 }

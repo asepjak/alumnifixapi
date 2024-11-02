@@ -254,7 +254,7 @@ Register User
 
                             <hr>
                             <div class="text-center">
-                                <a class="small" href="{{ route('password.request') }}">Lupa Kata Sandi?</a>
+                                <a class="small" href="#">Lupa Kata Sandi?</a>
                             </div>
                             <div class="text-center">
                                 <a class="small" href="{{ route('login') }}">Sudah punya akun? Masuk!</a>
@@ -299,14 +299,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // Show fields based on selected role
         switch(role) {
             case '0': // Admin
-                form.action = "{{ route('register.admin') }}";
                 break;
             case '1': // Alumni
-                form.action = "{{ route('register.alumni') }}";
                 alumniFields.style.display = 'block';
                 break;
             case '2': // Company
-                form.action = "{{ route('register.company') }}";
                 companyFields.style.display = 'block';
                 break;
             default:

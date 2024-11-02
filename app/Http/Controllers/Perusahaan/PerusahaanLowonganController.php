@@ -15,7 +15,7 @@ class PerusahaanLowonganController extends Controller
         $perusahaanId = session('id_perusahaan'); // Ambil id_perusahaan dari sesi
 
         // Mengirim permintaan GET ke endpoint API
-        $response = Http::withToken(session('token'))->get('http://raishaapi3.v-project.my.id/api/lowongan/lihat-lowongan'); // Ganti dengan URL yang sesuai
+        $response = Http::withToken(session('token'))->get('http://raishaapi3.v-project.my.id/api/lowongan/lowongan'); // Ganti dengan URL yang sesuai
 
         if ($response->successful()) {
             // Ambil lowongan yang sesuai dengan ID perusahaan
