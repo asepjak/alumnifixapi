@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -15,6 +14,7 @@ class RegisterController extends Controller
     {
         return view('pages.auth.register_alumni');
     }
+
     public function indexPerusahaan(): View
     {
         return view('pages.auth.register_perusahaan');
@@ -27,16 +27,16 @@ class RegisterController extends Controller
 
         if ($response->successful()) {
             // Process if registration is successful
-            $data = $response->json(); // Get JSON data from response
+            $responseData = $response->json(); // Get JSON data from response
 
             // Save token and role in session
-            session(['token' => $data['token']]); // Save token
-            session(['role' => $data['user']['role']]); // Save role
-            session(['username' => $data['user']['username']]); // Save username
-            session(['nama' => $data['nama_alumni']]); // Save username
+            session(['token' => $responseData['token']]); // Save token
+            session(['role' => $responseData['user']['role']]); // Save role
+            session(['username' => $responseData['user']['username']]); // Save username
+            session(['nama' => $responseData['user']['nama_alumni']]); // Save alumni name
 
-            // Show response information on dashboard page
-            return view('pages.alumni.dashboard', ['user' => $data['user']]); // Send user data to view
+            // Redirect to alumni dashboard
+            return redirect()->route('alumni.dashboard')->with('success', 'Registration successful, please login.');
         } else {
             // Log the error response from the API
             Log::error('Registration failed', [
@@ -53,7 +53,6 @@ class RegisterController extends Controller
 
             // Merge additional errors if any
             if (is_array($additionalErrors) && count($additionalErrors) > 0) {
-                // Flatten the errors array if it is structured with keys
                 foreach ($additionalErrors as $key => $messages) {
                     if (is_array($messages)) {
                         $allErrors = array_merge($allErrors, $messages);

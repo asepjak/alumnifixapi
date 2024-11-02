@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Alumni\DashboardAlumniController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\RegisterAlumniController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Perusahaan\DashboardPerusahaanController;
 use App\Http\Controllers\Perusahaan\PerusahaanLowonganController;
