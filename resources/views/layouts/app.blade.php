@@ -7,6 +7,7 @@
 
     @include('includes.frontend.style')
     <title>@yield('title')</title>
+    
 </head>
 
 <body>
