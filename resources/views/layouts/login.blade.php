@@ -25,9 +25,6 @@
 
     </div>
 
-
-
-
     @include('includes.backend.script')
 
 </body>

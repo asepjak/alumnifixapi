@@ -11,12 +11,12 @@
 
     <!-- INI BAGIAN LOWONGAN PEKERJAAN -->
     <section id="bagian-job">
-        @include('includes.frontend.loker')
+        {{-- @include('includes.frontend.loker') --}}
         {{-- <a href="{{ route('loker') }}" class="btn">Selengkapnya →</a> --}}
     </section>
-    @include('includes.frontend.berita-rilis')
+    {{-- @include('includes.frontend.berita-rilis') --}}
 
-    @include('includes.frontend.contact')
+    {{-- @include('includes.frontend.contact') --}}
 
     <!-- INI BAGIAN BERITA -->
 @endsection

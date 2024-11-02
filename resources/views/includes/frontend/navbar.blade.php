@@ -7,9 +7,9 @@
             <a href="{{ route('home') }}"> <i class="fas fa-home"> Home</i></a>
             <!-- <a href="job.html">
       <i class="fas fa-briefcase"> Job</i></a> -->
-      <a href="{{ route('loker') }}">
+      {{-- <a href="{{ route('loker') }}"> --}}
         <i class="fas fa-briefcase"> Lowongan Kerja</i></a>
-    <a href="{{ route('alumni') }}">
+    {{-- <a href="{{ route('alumni') }}"> --}}
         <i class="fas fa-briefcase"> Alumni</i></a>
             <!-- <a href="pages/alumni.html">
       <i class="fas fa-circle-user"> Alumni</i></a> -->
