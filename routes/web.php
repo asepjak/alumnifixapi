@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Alumni\DashboardAlumniController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\RegisterAlumniController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Perusahaan\DashboardPerusahaanController;
 use App\Http\Controllers\Perusahaan\PerusahaanLowonganController;
@@ -46,7 +47,7 @@ Route::get('/alumni', [HomeController::class, 'indexAlumni'])->name('alumni');
 // Registration Routes
 Route::get('register-perusahaan', [RegisterController::class, 'indexPerusahaan'])->name('indexPerusahaan');
 Route::get('register-alumni', [RegisterController::class, 'indexAlumni'])->name('indexAlumni');
-Route::post('register', [RegisterController::class, 'registerAlumni'])->name('registerAlumni');
+Route::post('register-alumni', [RegisterAlumniController::class, 'showRegisterForm'])->name('registerAlumni');
 Route::post('register-perusahaan', [RegisterController::class, 'registerPerusahaan'])->name('registerPerusahaan');
 
 

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -15,6 +14,7 @@ class RegisterController extends Controller
     {
         return view('pages.auth.register_alumni');
     }
+
     public function indexPerusahaan(): View
     {
         return view('pages.auth.register_perusahaan');
@@ -33,7 +33,6 @@ class RegisterController extends Controller
             'email' => 'required|email',
             'password' => 'required|string',
             'password_confirmation' => 'required|string|same:password',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Prepare data for API consumption
@@ -49,28 +48,22 @@ class RegisterController extends Controller
             'password_confirmation' => $request->password_confirmation,
         ];
 
-        // Include the file if it exists
-        if ($request->hasFile('foto')) {
-            $data['foto'] = $request->file('foto'); // Attach the file directly
-        }
-
         // Consume API for alumni registration
-        $response = Http::attach('foto', fopen($request->file('foto')->getRealPath(), 'r'), $request->file('foto')->getClientOriginalName())
-            ->post(env('API_BASE_URL') . '/api/auth/register-alumni', $data);
+        $response = Http::post('http://raishaapi3.v-project.my.id/api/register', $data);
 
         // Check for successful response
         if ($response->successful()) {
             // Process if registration is successful
-            $data = $response->json(); // Get JSON data from response
+            $responseData = $response->json(); // Get JSON data from response
 
             // Save token and role in session
-            session(['token' => $data['token']]); // Save token
-            session(['role' => $data['user']['role']]); // Save role
-            session(['username' => $data['user']['username']]); // Save username
-            session(['nama' => $data['nama_alumni']]); // Save username
+            session(['token' => $responseData['token']]); // Save token
+            session(['role' => $responseData['user']['role']]); // Save role
+            session(['username' => $responseData['user']['username']]); // Save username
+            session(['nama' => $responseData['user']['nama_alumni']]); // Save alumni name
 
-            // Show response information on dashboard page
-            return view('pages.alumni.dashboard', ['user' => $data['user']]); // Send user data to view
+            // Redirect to alumni dashboard
+            return redirect()->route('alumni.dashboard')->with('success', 'Registration successful, please login.');
         } else {
             // Log the error response from the API
             Log::error('Registration failed', [
@@ -87,7 +80,6 @@ class RegisterController extends Controller
 
             // Merge additional errors if any
             if (is_array($additionalErrors) && count($additionalErrors) > 0) {
-                // Flatten the errors array if it is structured with keys
                 foreach ($additionalErrors as $key => $messages) {
                     if (is_array($messages)) {
                         $allErrors = array_merge($allErrors, $messages);
@@ -103,77 +95,76 @@ class RegisterController extends Controller
     }
 
     public function registerPerusahaan(Request $request)
-{
-    // Validasi input pengguna
-    $request->validate([
-        'username' => 'required|string',
-        'email' => 'required|string|email|max:255',
-        'nama_perusahaan' => 'required|string|max:255',
-        'nib' => 'required|string',
-        'sektor_bisnis' => 'required|string|max:255',
-        'deskripsi_perusahaan' => 'required|string',
-        'jumlah_karyawan' => 'required|integer',
-        'no_telp' => 'required|string|max:20',
-        'alamat' => 'required|string|max:255',
-        'website_perusahaan' => 'nullable|url|max:255',
-        'password' => 'required|string|confirmed|min:8',
-    ]);
+    {
+        // Validate user input
+        $request->validate([
+            'username' => 'required|string',
+            'email' => 'required|string|email|max:255',
+            'nama_perusahaan' => 'required|string|max:255',
+            'nib' => 'required|string',
+            'sektor_bisnis' => 'required|string|max:255',
+            'deskripsi_perusahaan' => 'required|string',
+            'jumlah_karyawan' => 'required|integer',
+            'no_telp' => 'required|string|max:20',
+            'alamat' => 'required|string|max:255',
+            'website_perusahaan' => 'nullable|url|max:255',
+            'password' => 'required|string|confirmed|min:8',
+        ]);
 
-    // Menyusun data untuk dikirim ke API
-    $data = [
-        'username' => $request->username,
-        'email' => $request->email,
-        'nama_perusahaan' => $request->nama_perusahaan,
-        'nib' => $request->nib,
-        'sektor_bisnis' => $request->sektor_bisnis,
-        'deskripsi_perusahaan' => $request->deskripsi_perusahaan,
-        'jumlah_karyawan' => $request->jumlah_karyawan,
-        'no_telp' => $request->no_telp,
-        'alamat' => $request->alamat,
-        'website_perusahaan' => $request->website_perusahaan,
-        'password' => $request->password,
-        'password_confirmation' => $request->password_confirmation,
-    ];
+        // Prepare data for API consumption
+        $data = [
+            'username' => $request->username,
+            'email' => $request->email,
+            'nama_perusahaan' => $request->nama_perusahaan,
+            'nib' => $request->nib,
+            'sektor_bisnis' => $request->sektor_bisnis,
+            'deskripsi_perusahaan' => $request->deskripsi_perusahaan,
+            'jumlah_karyawan' => $request->jumlah_karyawan,
+            'no_telp' => $request->no_telp,
+            'alamat' => $request->alamat,
+            'website_perusahaan' => $request->website_perusahaan,
+            'password' => $request->password,
+            'password_confirmation' => $request->password_confirmation,
+        ];
 
-    try {
-        // Kirim permintaan ke API
-        $response = Http::post(env('API_BASE_URL') . '/api/auth/register-perusahaan', $data);
+        try {
+            // Send request to API
+            $response = Http::post('http://raishaapi3.v-project.my.id/api/register-perusahaan', $data);
 
-        // Memeriksa keberhasilan respons
-        if ($response->successful()) {
-            $responseData = $response->json();
+            // Check for successful response
+            if ($response->successful()) {
+                $responseData = $response->json();
 
-            // Simpan data session yang relevan
-            session([
-                'token' => $responseData['token'],
-                'role' => $responseData['user']['role'],
-                'username' => $responseData['user']['username'],
-                'nama_perusahaan' => $responseData['perusahaan']['nama_perusahaan'],
-            ]);
+                // Save relevant session data
+                session([
+                    'token' => $responseData['token'],
+                    'role' => $responseData['user']['role'],
+                    'username' => $responseData['user']['username'],
+                    'nama_perusahaan' => $responseData['perusahaan']['nama_perusahaan'],
+                ]);
 
-            return redirect()->route('dashboard')->with('success', 'Perusahaan registered successfully');
-        } else {
-            Log::error('Registration failed', [
-                'response_status' => $response->status(),
-                'response_data' => $response->json(),
-            ]);
+                return redirect()->route('dashboard')->with('success', 'Company registered successfully');
+            } else {
+                Log::error('Registration failed', [
+                    'response_status' => $response->status(),
+                    'response_data' => $response->json(),
+                ]);
 
-            $errorMessage = $response->json()['message'] ?? 'Registration failed';
-            $additionalErrors = $response->json()['errors'] ?? [];
+                $errorMessage = $response->json()['message'] ?? 'Registration failed';
+                $additionalErrors = $response->json()['errors'] ?? [];
 
-            $allErrors = [$errorMessage];
-            if (is_array($additionalErrors) && count($additionalErrors) > 0) {
-                foreach ($additionalErrors as $key => $messages) {
-                    $allErrors = is_array($messages) ? array_merge($allErrors, $messages) : array_merge($allErrors, [$messages]);
+                $allErrors = [$errorMessage];
+                if (is_array($additionalErrors) && count($additionalErrors) > 0) {
+                    foreach ($additionalErrors as $key => $messages) {
+                        $allErrors = is_array($messages) ? array_merge($allErrors, $messages) : array_merge($allErrors, [$messages]);
+                    }
                 }
+
+                return back()->withErrors(['registration_error' => $allErrors]);
             }
-
-            return redirect()->back()->withErrors(['registration_error' => $allErrors]);
+        } catch (\Exception $e) {
+            Log::error('Server Error', ['exception' => $e->getMessage()]);
+            return back()->withErrors(['registration_error' => ['An error occurred on the server. Please try again later.']]);
         }
-    } catch (\Exception $e) {
-        Log::error('Server Error', ['exception' => $e->getMessage()]);
-        return redirect()->back()->withErrors(['registration_error' => ['Server error occurred. Please try again later.']]);
     }
-}
-
 }
