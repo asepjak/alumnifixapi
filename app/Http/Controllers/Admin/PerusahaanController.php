@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 
 class PerusahaanController extends Controller
 {
-
+    public function index() {
+        return view('pages.perusahaan.dashboard');
+    }
     public function terima_perusahaan($id)
     {
         // Redirect ke halaman perusahaan diterima dengan pesan sukses

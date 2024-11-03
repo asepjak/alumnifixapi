@@ -31,9 +31,9 @@ Route::get('/dashboard', function () {
         if ($role === 0) {
             return redirect()->route('dashboardAdmin'); // Redirect to admin dashboard
         } elseif ($role === 1) {
-            return redirect()->route('dashboardAlumni'); // Redirect to alumni dashboard
+            return redirect()->route('dashboard.index'); // Redirect to alumni dashboard
         } elseif ($role === 2) {
-            return redirect()->route('dashboardPerusahaan'); // Redirect to company dashboard
+            return redirect()->route('dashboardperusahaan.index'); // Redirect to company dashboard
         }
     }
     return redirect()->route('login'); // Redirect to login if no token
@@ -102,7 +102,7 @@ Route::prefix('admin')->group(function () {
 Route::prefix('perusahaan')->group(function () {
     Route::get('lowongan', [PerusahaanLowonganController::class, 'lowongan'])->name('lowongan.index'); //done
     Route::post('lowongan/tambah', [PerusahaanLowonganController::class, 'store'])->name('lowongan.store'); //done
-    Route::get('dashboard', [PerusahaanController::class, 'index'])->name('dashboard.index'); // tidak ada fungsiny
+    Route::get('dashboard', [PerusahaanController::class, 'index'])->name('dashboardperusahaan.index'); // tidak ada fungsiny
 });
 
 //Alumni
