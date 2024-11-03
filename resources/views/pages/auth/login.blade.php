@@ -4,7 +4,6 @@
 @endsection
 @section('content')
     <div class="row justify-content-center">
-
         <div class="col-xl-10 col-lg-12 col-md-9">
             <div class="card o-hidden border-0 shadow-lg my-5">
                 <div class="card-body p-0">
@@ -17,7 +16,6 @@
                                     <h1 class="h4 text-gray-900 mb-4">Selamat Datang!</h1>
                                 </div>
 
-                                <!-- Menampilkan error "Akun salah" jika ada -->
                                 @if ($errors->has('login_error'))
                                     <div class="alert alert-danger">
                                         {{ $errors->first('login_error') }}
@@ -26,6 +24,20 @@
 
                                 <form class="user" method="POST" action="{{ route('login.post') }}">
                                     @csrf
+                                    <!-- Role Selection Dropdown -->
+                                    <div class="form-group">
+                                        <select name="role" class="form-control form-control-user @error('role') is-invalid @enderror" id="roleSelect">
+                                            <option value="" disabled selected>Pilih Role</option>
+                                            <option value="alumni" {{ old('role') == 'alumni' ? 'selected' : '' }}>Alumni</option>
+                                            <option value="perusahaan" {{ old('role') == 'perusahaan' ? 'selected' : '' }}>Perusahaan</option>
+                                        </select>
+                                        @error('role')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+
                                     <div class="form-group">
                                         <input type="nomor_induk"
                                             class="form-control form-control-user @error('nomor_induk') is-invalid @enderror"
@@ -54,24 +66,23 @@
                                     </button>
                                 </form>
                                 <hr>
-                                {{-- <div class="text-center">
-                                <a class="small" href="forgot-password.html">Forgot Password?</a>
-                            </div> --}}
                                 <div class="text-center">
+                                    <a href="{{route('register')}}" class="small">Daftar</a>
+                                </div>
+                                {{-- <div class="text-center">
                                     <a class="small" href="{{ route('indexAlumni') }}">Buat Akun Alumni!</a>
                                 </div>
                                 <div class="text-center">
                                     <a class="small" href="{{ route('indexPerusahaan') }}">Buat akun Perusahaan!</a>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
-
     </div>
+
     @if (session('success'))
     <script>
         Swal.fire({
@@ -79,21 +90,20 @@
             title: 'Berhasil!',
             text: "{{ session('success') }}",
             showConfirmButton: true,
-            timer: 3000 // Optional: automatically close the alert after 3 seconds
+            timer: 3000
         });
     </script>
-@endif
+    @endif
 
-@if ($errors->has('login_error'))
+    @if ($errors->has('login_error'))
     <script>
         Swal.fire({
             icon: 'error',
             title: 'Oops!',
             text: "{{ implode(', ', $errors->get('login_error')) }}",
             showConfirmButton: true,
-            timer: 3000 // Optional: automatically close the alert after 3 seconds
+            timer: 3000
         });
     </script>
-@endif
-
+    @endif
 @endsection
