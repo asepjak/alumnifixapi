@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\AdminPerusahaanController;
 use App\Http\Controllers\Admin\AdminTracerController;
 use App\Http\Controllers\Admin\BeritaController;
 use App\Http\Controllers\Admin\DashboardAdminController;
+use App\Http\Controllers\Admin\PerusahaanController;
 use App\Http\Controllers\Alumni\AlumniLamaranController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Alumni\DashboardAlumniController;
@@ -101,6 +102,7 @@ Route::prefix('admin')->group(function () {
 Route::prefix('perusahaan')->group(function () {
     Route::get('lowongan', [PerusahaanLowonganController::class, 'lowongan'])->name('lowongan.index'); //done
     Route::post('lowongan/tambah', [PerusahaanLowonganController::class, 'store'])->name('lowongan.store'); //done
+    Route::get('dashboard', [PerusahaanController::class, 'index'])->name('dashboard.index');
 });
 
 //Alumni
