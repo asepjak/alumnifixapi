@@ -30,12 +30,12 @@ Perusahaan
                         <tbody>
                             @foreach($showLowonganDiterima as $lowongan)
                             <tr>
-                                <td>{{ $lowongan->id_lowongan }}</td>
-                                <td>{{ $lowongan->judul_lowongan }}</td>
-                                <td>{{ $lowongan->posisi_pekerjaan }}</td>
-                                <td>{{ $lowongan->lokasi }}</td>
-                                <td>{{ $lowongan->kontak }}</td>
-                                <td>{{ $lowongan->status }}</td>
+                                <td>{{ $lowongan['id_lowongan'] }}</td>
+                                <td>{{ $lowongan['judul_lowongan'] }}</td>
+                                <td>{{ $lowongan['posisi_pekerjaan'] }}</td>
+                                <td>{{ $lowongan['lokasi'] }}</td>
+                                <td>{{ $lowongan['kontak'] }}</td>
+                                <td>{{ $lowongan['status'] }}</td>
                                 <td>
                             </tr>
                             @endforeach

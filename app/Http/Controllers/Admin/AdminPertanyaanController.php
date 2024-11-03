@@ -9,13 +9,14 @@ use Illuminate\Support\Facades\Log;
 
 class AdminPertanyaanController extends Controller
 {
-    public function index()
+    public function pertanyaan()
     {
-        $response = Http::withToken(session('token'))->get('http://raishaapi3.v-project.my.id/api/lowongan'); // Ganti dengan URL yang sesuai
+        $response = Http::withToken(session('token'))->get('http://raishaapi3.v-project.my.id/api/pertanyaan'); // Ganti dengan URL yang sesuai
 
         if ($response->successful()) {
             // Ambil lowongan yang sesuai dengan ID perusahaan
-            $lowongans = $response->json()['lowongans'];
+            $lowongans = $response->json()['data'];
+            dd($lowongans);
         } else {
             Log::error('API request failed', ['status' => $response->status(), 'response' => $response->body()]);
             $lowongans = [];

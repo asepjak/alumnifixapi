@@ -11,7 +11,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <a href="{{route('pertanyaan.create')}}" class="mb-4 btn btn-primary">Tambah Pertanyaan</a>
+                <a href="#" class="mb-4 btn btn-primary">Tambah Pertanyaan</a>
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
@@ -22,9 +22,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($data as $item)
+                        @foreach ($lowongans as $item)
                             <tr>
-                                <td>{{ $item->id_pertanyaan }}</td>
                                 <td>{{ $item->pertanyaan }}</td>
                                 <td>{{ $item->jenis }}</td>
                                 <td class="d-flex" style="gap: 4px">

@@ -83,7 +83,6 @@ class RegisterController extends Controller
             'alamat' => 'required|string',
             'no_tlp' => 'required|string',
             'email' => 'required|email|unique:alumni',
-            'foto' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'status' => 'required|in:aktif,pasif',
         ]);
 
@@ -98,10 +97,8 @@ class RegisterController extends Controller
             'email' => $request->email,
             'status' => $request->status,
         ];
-
         // Consume API for alumni registration
-        $response = Http::attach('foto', fopen($request->file('foto')->getRealPath(), 'r'), $request->file('foto')->getClientOriginalName())
-            ->post(env('API_BASE_URL') . '/api/auth/register-alumni', $data);
+        $response = Http::post('raishaapi3.v-project.my.id/api/register', $data);
 
         // Check for successful response
         if ($response->successful()) {

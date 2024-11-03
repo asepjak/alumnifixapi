@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Http;
 
 class AdminLowonganController extends Controller
 {
-    public function showLowonganDiterima()
+    public function LowonganDiterima()
     {
         $response = Http::get('http://raishaapi3.v-project.my.id/api/lowongan'); // Ganti dengan URL yang sesuai
 
@@ -29,7 +29,7 @@ class AdminLowonganController extends Controller
         return view('pages.admin.lowongan-diterima', compact('showLowonganDiterima'));
     }
 
-    public function showLowonganDivalidasi()
+    public function LowonganDivalidasi()
     {
         $response = Http::get('http://raishaapi3.v-project.my.id/api/lowongan'); // Ganti dengan URL yang sesuai
 

@@ -48,7 +48,7 @@ Route::middleware(CheckToken::class)->group(function () {
 
 // Public Routes
 Route::get('/', [HomeController::class, 'indexHome'])->name('home');
-Route::get('/loker', [HomeController::class, 'indexLoker'])->name('loker'); //done
+// Route::get('/loker', [HomeController::class, 'indexLoker'])->name('loker'); //done
 Route::get('/alumni', [HomeController::class, 'indexAlumni'])->name('alumni'); //done
 
 // Registration Routes
@@ -84,7 +84,7 @@ Route::prefix('admin')->group(function () {
     Route::get('tracer', [AdminTracerController::class, 'index'])->name('tracer.index'); //done
 
     //edit atmin
-    Route::get('edit-admin',[AdminController::class, 'indexEditProfile'])->name('edit-admin.index');
+    // Route::get('edit-admin',[AdminController::class, 'indexEditProfile'])->name('edit-admin.index');
 
     Route::get('dashboard', [DashboardAdminController::class, 'index'])->name('dashboardAdmin'); // done
 
@@ -102,7 +102,7 @@ Route::prefix('admin')->group(function () {
 
 
     // Pertanyaan Management
-    Route::get('pertanyaan', [AdminPertanyaanController::class, 'pertanyaan'])->name('pertanyaan.index'); //done
+    // Route::get('pertanyaan', [AdminPertanyaanController::class, 'pertanyaan'])->name('pertanyaan.index'); //done
 
     // Tracer
     // Route::get('tracer', [AdminTracerController::class, 'tracer'])->name('tracer.index'); //done
@@ -128,7 +128,7 @@ Route::get('dashboard', [DashboardAlumniController::class, 'index'])->name('dash
 Route::get('history', [HistoryAlumniController::class, 'index'])->name('history.index');
 Route::get('job', [JobAlumniController::class, 'index'])->name('job.index');
 Route::get('edit-profile', [ProfileAlumniController::class, 'index'])->name('profile.index');
-Route::get('Tracer', [TracerAlumniController::class, 'index'])->name('tracer.index');
+Route::get('tracer', [TracerAlumniController::class, 'index'])->name('tracer.index');
 
 
 

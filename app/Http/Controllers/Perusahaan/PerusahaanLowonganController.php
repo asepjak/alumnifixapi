@@ -20,7 +20,7 @@ class PerusahaanLowonganController extends Controller
 
         if ($response->successful()) {
             // Ambil lowongan yang sesuai dengan ID perusahaan
-            $lowongans = collect($response->json()['lowongans'])->where('id_perusahaan', $perusahaanId)->all();
+            $lowongans = collect($response->json()['data'])->where('id_perusahaan', $perusahaanId)->all();
         } else {
             Log::error('API request failed', ['status' => $response->status(), 'response' => $response->body()]);
             $lowongans = [];
@@ -72,7 +72,7 @@ class PerusahaanLowonganController extends Controller
                     ],
                     [
                         'name'     => 'tanggal_aktif',
-                        'contents' => $request->tanggal_aktif
+                        'contents' => $request->tanggal_aktif //tidakada
                     ],
                     [
                         'name'     => 'rentang_gaji',
@@ -91,6 +91,7 @@ class PerusahaanLowonganController extends Controller
 
             // Get the response body
             $content = $response->getBody()->getContents();
+            dd($content);
             $contentArray = json_decode($content, true);
             $pertanyaan = $contentArray['data'];
 

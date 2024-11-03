@@ -46,14 +46,16 @@
                                     <td>{{ $perusahaan['website_perusahaan'] }}</td>
                                     <td>{{ $perusahaan['status'] }}</td>
                                     <td class="d-flex justify-content-center" style="gap: 4px;">
-                                        <form action="{{ route('terima-perusahaan', $perusahaan['id_perusahaan']) }}"
+                                        {{-- {{ route('terima-perusahaan', $perusahaan['id_perusahaan']) }} --}}
+                                        <form action="#"
                                             method="post">
                                             @csrf
                                             <button type="submit" class="btn btn-success">
                                                 <i class="fas fa-check"></i>
                                             </button>
                                         </form>
-                                        <form action="{{ route('tolak-perusahaan', $perusahaan['id_perusahaan']) }}"
+                                        {{-- {{ route('tolak-perusahaan', $perusahaan['id_perusahaan']) }} --}}
+                                        <form action="#"
                                             method="post">
                                             @csrf
                                             <button type="submit" class="btn btn-danger">

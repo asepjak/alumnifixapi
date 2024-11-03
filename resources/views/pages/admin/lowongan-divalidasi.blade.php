@@ -32,31 +32,32 @@
                         <tbody>
                             @foreach ($showLowonganDivalidasi as $lowongan)
                                 <tr>
-                                    <td>{{ $lowongan->id_lowongan }}</td>
-                                    <td>{{ $lowongan->perusahaan->nama_perusahaan ?? 'Tidak ada data' }}</td>
-                                    <td>{{ $lowongan->judul_lowongan }}</td>
-                                    <td>{{ $lowongan->posisi_pekerjaan }}</td>
-                                    <td>{{ $lowongan->lokasi }}</td>
-                                    <td>{{ $lowongan->kontak }}</td>
-                                    <td>{{ $lowongan->status }}</td>
+                                    <td>{{ $lowongan['id_lowongan'] }}</td>
+                                    <td>{{ $lowongan['judul_lowongan'] }}</td>
+                                    <td>{{ $lowongan['posisi_pekerjaan'] }}</td>
+                                    <td>{{ $lowongan['lokasi'] }}</td>
+                                    <td>{{ $lowongan['kontak'] }}</td>
+                                    <td>{{ $lowongan['status'] }}</td>
                                     <td class="d-flex justify-content-center" style="gap: 4px;">
-                                        <form action="{{ route('terima-lowongan', $lowongan->id_lowongan) }}"
+                                        {{-- {{ route('terima-lowongan', $lowongan['id_lowongan']) }} --}}
+                                        <form action="#"
                                             method="post">
                                             @csrf
                                             <button type="submit" class="btn btn-success">
                                                 <i class="fas fa-check"></i>
                                             </button>
                                         </form>
-                                        <form action="{{ route('tolak-lowongan', $lowongan->id_lowongan) }}" method="post">
+                                        {{-- {{ route('tolak-lowongan', $lowongan['id_lowongan']) }} --}}
+                                        <form action="#" method="post">
                                             @csrf
                                             <button type="submit" class="btn btn-danger">
                                                 <i class="fas fa-times"></i>
                                             </button>
                                         </form>
-                                        <button class="btn btn-info" data-toggle="modal"
-                                            data-target="#detailModal{{ $lowongan->id_lowongan }}" title="View Details">
+                                        {{-- <button class="btn btn-info" data-toggle="modal"
+                                            data-target="#detailModal{{ $lowongan['id_lowongan'] }}" title="View Details">
                                             <i class="fas fa-eye"></i>
-                                        </button>
+                                        </button> --}}
                                     </td>
                                 </tr>
                             @endforeach
@@ -66,7 +67,7 @@
             </div>
         </div>
     </div>
-    @include('includes.backend.modal.admin.modal_lowongan_admin')
+    {{-- @include('includes.backend.modal.admin.modal_lowongan_admin') --}}
 @endsection
 
 
