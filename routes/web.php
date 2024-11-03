@@ -89,7 +89,7 @@ Route::prefix('admin')->group(function () {
     Route::get('pertanyaan', [AdminPertanyaanController::class, 'pertanyaan'])->name('pertanyaan.index'); //done
 
     // Tracer
-    Route::get('tracer', [AdminTracerController::class, 'tracer'])->name('tracer.index'); //done
+    // Route::get('tracer', [AdminTracerController::class, 'tracer'])->name('tracer.index'); //done
 
     // Berita Management
     Route::get('berita', [BeritaController::class, 'index'])->name('berita.index'); //done

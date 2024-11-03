@@ -15,9 +15,9 @@
         <div class="card-body">
             {{-- <canvas id="myChart"></canvas> --}}
             <div>
-                @for ($i = 1; $i <= count($datas); $i ++)
+                {{-- @for ($i = 1; $i <= count($datas); $i ++)
                     Yang sudah mengisi Pertanyaan {{$i}} : {{$datas[$i]}} <br>
-                @endfor
+                @endfor --}}
             </div>
             <div class="table-responsive">
                 {{-- <a href="{{route('pertanyaan.create')}}" class="mb-4 btn btn-primary">Data Kuisioner Alumni</a> --}}

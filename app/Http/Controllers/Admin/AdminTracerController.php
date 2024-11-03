@@ -14,10 +14,10 @@ class AdminTracerController extends Controller
 
         if ($response->successful()) {
             // Ambil lowongan yang sesuai dengan ID perusahaan
-            $lowongans = $response->json()['lowongans'];
+            $data = $response->json()['data'];
         } else {
-            $lowongans = [];
+            $data = [];
         }
-        return view('pages.admin.data-tracer', compact('lowongans'));
+        return view('pages.admin.data-tracer', compact('data'));
     }
 }
