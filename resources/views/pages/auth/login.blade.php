@@ -62,7 +62,7 @@
                                     <a class="small" href="{{ route('register.alumni.submit') }}">Buat Akun Alumni</a>
                                 </div>
                                 <div class="text-center">
-                                <a class="small" href="{{ route('register.perusahaan.index') }}">Buat akun Perusahaan!</a>
+                                <a class="small" href="{{ route('register.perusahaan.submit') }}">Buat akun Perusahaan!</a>
                             </div>
                         </div>
                     </div>
