@@ -27,7 +27,7 @@
                                         @endforeach
                                     </div>
                                 @endif
-                                <form class="user" method="POST" action="{{ route('registerPerusahaan') }}">
+                                <form class="user" method="POST" action="{{ route('register.perusahaan.index') }}">
                                     @csrf
                                     <!-- Personal Information -->
                                     <h5 class="mb-3">Informasi Pengguna</h5>

@@ -19,7 +19,7 @@ Register User
                             </div>
 
                             <!-- Registration Form -->
-                            <form class="user" method="POST" action="{{ route('register') }}">
+                            <form class="user" method="POST" action="{{ route('register.submit') }}">
                                 @csrf
 
                                 <!-- Name Field -->
