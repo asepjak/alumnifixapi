@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminAlumniController;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminLowonganController;
 use App\Http\Controllers\Admin\AdminPertanyaanController;
 use App\Http\Controllers\Admin\AdminPerusahaanController;
@@ -56,6 +57,13 @@ Route::post('register-perusahaan', [RegisterController::class, 'registerPerusaha
 
 // Admin Routes
 Route::prefix('admin')->group(function () {
+
+    //Tracer
+    Route::get('tracer', [AdminTracerController::class, 'index'])->name('tracer.index'); //done
+
+    //edit atmin
+    Route::get('edit-admin',[AdminController::class, 'indexEditProfile'])->name('edit-admin.index');
+
     Route::get('dashboard', [DashboardAdminController::class, 'index'])->name('dashboardAdmin'); // done
 
     // Alumni Management
@@ -69,6 +77,7 @@ Route::prefix('admin')->group(function () {
     // Lowongan Management
     Route::get('lowongan-diterima', [AdminLowonganController::class, 'lowonganDiterima'])->name('lowongan-diterima');
     Route::get('lowongan-divalidasi', [AdminLowonganController::class, 'lowonganDivalidasi'])->name('lowongan-divalidasi');
+    
 
     // Pertanyaan Management
     Route::get('pertanyaan', [AdminPertanyaanController::class, 'pertanyaan'])->name('pertanyaan.index');
