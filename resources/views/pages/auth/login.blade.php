@@ -25,7 +25,7 @@
                                 <form class="user" method="POST" action="{{ route('login.post') }}">
                                     @csrf
                                     <!-- Role Selection Dropdown -->
-                                    
+
 
                                     <div class="form-group">
                                         <input type="nomor_induk"
@@ -59,10 +59,7 @@
                                     <a href="{{route('register.index')}}" class="small">Daftar</a>
                                 </div> --}}
                                 <div class="text-center">
-                                    <a class="small" href="{{ route('indexAlumni') }}">Buat Akun Alumni!</a>
-                                </div>
-                                <div class="text-center">
-                                    <a class="small" href="{{ route('indexPerusahaan') }}">Buat akun Perusahaan!</a>
+                                    <a class="small" href="{{ route('register') }}">Buat Akun</a>
                                 </div>
                             </div>
                         </div>

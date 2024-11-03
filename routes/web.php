@@ -81,33 +81,33 @@ Route::prefix('admin')->group(function () {
     Route::get('perusahaan-divalidasi', [AdminPerusahaanController::class, 'perusahaanDivalidasi'])->name('perusahaan-divalidasi'); //done
 
     // Lowongan Management
-    Route::get('lowongan-diterima', [AdminLowonganController::class, 'lowonganDiterima'])->name('lowongan-diterima');
-    Route::get('lowongan-divalidasi', [AdminLowonganController::class, 'lowonganDivalidasi'])->name('lowongan-divalidasi');
+    Route::get('lowongan-diterima', [AdminLowonganController::class, 'lowonganDiterima'])->name('lowongan-diterima'); //done
+    Route::get('lowongan-divalidasi', [AdminLowonganController::class, 'lowonganDivalidasi'])->name('lowongan-divalidasi'); //done
 
 
     // Pertanyaan Management
-    Route::get('pertanyaan', [AdminPertanyaanController::class, 'pertanyaan'])->name('pertanyaan.index');
+    Route::get('pertanyaan', [AdminPertanyaanController::class, 'pertanyaan'])->name('pertanyaan.index'); //done
 
     // Tracer
-    Route::get('tracer', [AdminTracerController::class, 'tracer'])->name('tracer.index');
+    Route::get('tracer', [AdminTracerController::class, 'tracer'])->name('tracer.index'); //done
 
     // Berita Management
-    Route::get('berita', [BeritaController::class, 'index'])->name('berita.index');
-    Route::post('berita-tambah', [BeritaController::class, 'tambahData'])->name('berita.tambah');
-    Route::put('berita/{id}', [BeritaController::class, 'updateData'])->name('berita.update');
-    Route::delete('berita/delete/{id}', [BeritaController::class, 'deleteData'])->name('berita.delete');
+    Route::get('berita', [BeritaController::class, 'index'])->name('berita.index'); //done
+    Route::post('berita-tambah', [BeritaController::class, 'tambahData'])->name('berita.tambah'); //done
+    Route::put('berita/{id}', [BeritaController::class, 'updateData'])->name('berita.update'); //done
+    Route::delete('berita/delete/{id}', [BeritaController::class, 'deleteData'])->name('berita.delete'); //done
 });
 
 // Perusahaan Routes
 Route::prefix('perusahaan')->group(function () {
     Route::get('lowongan', [PerusahaanLowonganController::class, 'lowongan'])->name('lowongan.index'); //done
     Route::post('lowongan/tambah', [PerusahaanLowonganController::class, 'store'])->name('lowongan.store'); //done
-    Route::get('dashboard', [PerusahaanController::class, 'index'])->name('dashboard.index');
+    Route::get('dashboard', [PerusahaanController::class, 'index'])->name('dashboard.index'); // tidak ada fungsiny
 });
 
 //Alumni
 
-Route::get('lamaran', [AlumniLamaranController::class, 'index'])->name('lamaran.index');
+Route::get('lamaran', [AlumniLamaranController::class, 'index'])->name('lamaran.index'); //done
 Route::get('dashboard', [DashboardAlumniController::class, 'index'])->name('dashboard.index');
 Route::get('history', [HistoryAlumniController::class, 'index'])->name('history.index');
 Route::get('job', [JobAlumniController::class, 'index'])->name('job.index');

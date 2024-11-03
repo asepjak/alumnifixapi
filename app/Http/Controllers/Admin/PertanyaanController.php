@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\JawabanTertutup;
 use App\Models\Pertanyaan;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class PertanyaanController extends Controller
 {
@@ -17,8 +19,17 @@ class PertanyaanController extends Controller
 
     public function index()
     {
+        $response = Http::get('http://raishaapi3.v-project.my.id/api/pertanyaan'); // Ganti dengan URL yang sesuai
+
+        // Mengecek apakah permintaan berhasil
+        if ($response->successful()) {
+            // Mendapatkan data alumni dari respons
+            $pertanyaan = $response->json()['data']; // Mengambil data dari respons JSON
+        } else {
+            $pertanyaan = []; // Jika ada kesalahan, inisialisasi dengan array kosong
+        }
         // Mengambil semua data pertanyaan dari database
-        return view('pages.admin.pertanyaan', compact('data'));
+        return view('pages.admin.pertanyaan', compact('pertanyaan'));
     }
 
     /**
@@ -29,8 +40,37 @@ class PertanyaanController extends Controller
      */
     public function store(Request $request)
     {
-        // Redirect with a success message
-        return redirect()->back()->with('success', 'Pertanyaan berhasil ditambahkan.');
+        $client = new Client();
+        $data = [
+            'pertanyaan' => $request->pertanyaan,
+            'jenis' => $request->jenis,
+        ];
+        $url = Http::post('http://raishaapi3.v-project.my.id/api/create-pertanyaan'); // Ganti dengan URL yang sesuai
+        try {
+            // Send POST request to API
+            $response = $client->request('POST', $url, [
+                'multipart' => [
+                    [
+                        'name'     => 'pertanyaan',
+                        'contents' => $data['pertanyaan']
+                    ],
+                    [
+                        'name'     => 'jenis',
+                        'contents' => $data['jenis']
+                    ]
+                ]
+            ]);
+
+            // Get the response body
+            $content = $response->getBody()->getContents();
+            $contentArray = json_decode($content, true);
+            $pertanyaan = $contentArray['data'];
+
+            return redirect()->back()->with('success', 'Pertanyaan berhasil ditambahkan.');
+        } catch (\Exception $e) {
+            // Handle errors
+            return redirect()->back()->withErrors(['add_error' => 'Gagal menambahkan berita: ' . $e->getMessage()]);
+        }
     }
 
 

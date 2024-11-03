@@ -5,17 +5,47 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Lowongan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class AdminLowonganController extends Controller
 {
     public function showLowonganDiterima()
     {
-        //
+        $response = Http::get('http://raishaapi3.v-project.my.id/api/lowongan'); // Ganti dengan URL yang sesuai
+
+        // Mengecek apakah permintaan berhasil
+        if ($response->successful()) {
+            // Mendapatkan data alumni dari respons
+            $data = $response->json()['data']; // Mengambil data dari respons JSON
+            $showLowonganDiterima = [];
+
+            for ($i = 0; $i < count($data); $i++ ) {
+                $data[$i]['status'] == 'diterima' ? $showLowonganDiterima[$i] = $data[$i] : '';
+            }
+
+        } else {
+            $showLowonganDiterima = []; // Jika ada kesalahan, inisialisasi dengan array kosong
+        }
         return view('pages.admin.lowongan-diterima', compact('showLowonganDiterima'));
     }
 
     public function showLowonganDivalidasi()
     {
+        $response = Http::get('http://raishaapi3.v-project.my.id/api/lowongan'); // Ganti dengan URL yang sesuai
+
+        // Mengecek apakah permintaan berhasil
+        if ($response->successful()) {
+            // Mendapatkan data alumni dari respons
+            $data = $response->json()['data']; // Mengambil data dari respons JSON
+            $showLowonganDivalidasi = [];
+
+            for ($i = 0; $i < count($data); $i++ ) {
+                $data[$i]['status'] == 'pending' ? $showLowonganDivalidasi[$i] = $data[$i] : '';
+            }
+
+        } else {
+            $showLowonganDivalidasi = []; // Jika ada kesalahan, inisialisasi dengan array kosong
+        }
         return view('pages.admin.lowongan-divalidasi', compact('showLowonganDivalidasi'));
     }
 
