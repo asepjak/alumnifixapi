@@ -7,5 +7,7 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    //EDIT PROFIL ADMIN DISINI
+    public function indexEditProfile() {  //edit profile admin
+        return view ('pages.admin.edit-profile');
+    }
 }
