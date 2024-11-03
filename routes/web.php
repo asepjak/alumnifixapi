@@ -8,8 +8,13 @@ use App\Http\Controllers\Admin\AdminPerusahaanController;
 use App\Http\Controllers\Admin\AdminTracerController;
 use App\Http\Controllers\Admin\BeritaController;
 use App\Http\Controllers\Admin\DashboardAdminController;
+use App\Http\Controllers\Alumni\AlumniLamaranController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Alumni\DashboardAlumniController;
+use App\Http\Controllers\Alumni\HistoryAlumniController;
+use App\Http\Controllers\Alumni\JobAlumniController;
+use App\Http\Controllers\Alumni\ProfileAlumniController;
+use App\Http\Controllers\Alumni\TracerAlumniController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\RegisterAlumniController;
@@ -77,7 +82,7 @@ Route::prefix('admin')->group(function () {
     // Lowongan Management
     Route::get('lowongan-diterima', [AdminLowonganController::class, 'lowonganDiterima'])->name('lowongan-diterima');
     Route::get('lowongan-divalidasi', [AdminLowonganController::class, 'lowonganDivalidasi'])->name('lowongan-divalidasi');
-    
+
 
     // Pertanyaan Management
     Route::get('pertanyaan', [AdminPertanyaanController::class, 'pertanyaan'])->name('pertanyaan.index');
@@ -97,3 +102,16 @@ Route::prefix('perusahaan')->group(function () {
     Route::get('lowongan', [PerusahaanLowonganController::class, 'lowongan'])->name('lowongan.index'); //done
     Route::post('lowongan/tambah', [PerusahaanLowonganController::class, 'store'])->name('lowongan.store'); //done
 });
+
+//Alumni
+
+Route::get('lamaran', [AlumniLamaranController::class, 'index'])->name('lamaran.index');
+Route::get('dashboard', [DashboardAlumniController::class, 'index'])->name('dashboard.index');
+Route::get('history', [HistoryAlumniController::class, 'index'])->name('history.index');
+Route::get('job', [JobAlumniController::class, 'index'])->name('job.index');
+Route::get('edit-profile', [ProfileAlumniController::class, 'index'])->name('profile.index');
+Route::get('Tracer', [TracerAlumniController::class, 'index'])->name('tracer.index');
+
+
+
+
