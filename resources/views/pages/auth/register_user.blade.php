@@ -267,7 +267,6 @@ Register User
     </div>
 </div>
 
-@push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const roleSelect = document.getElementById('roleSelect');
@@ -366,5 +365,4 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     </script>
 @endif
-@endpush
 @endsection

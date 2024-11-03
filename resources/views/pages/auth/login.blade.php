@@ -25,18 +25,7 @@
                                 <form class="user" method="POST" action="{{ route('login.post') }}">
                                     @csrf
                                     <!-- Role Selection Dropdown -->
-                                    <div class="form-group">
-                                        <select name="role" class="form-control form-control-user @error('role') is-invalid @enderror" id="roleSelect">
-                                            <option value="" disabled selected>Pilih Role</option>
-                                            <option value="alumni" {{ old('role') == 'alumni' ? 'selected' : '' }}>Alumni</option>
-                                            <option value="perusahaan" {{ old('role') == 'perusahaan' ? 'selected' : '' }}>Perusahaan</option>
-                                        </select>
-                                        @error('role')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
+                                    
 
                                     <div class="form-group">
                                         <input type="nomor_induk"
@@ -66,15 +55,15 @@
                                     </button>
                                 </form>
                                 <hr>
-                                <div class="text-center">
-                                    <a href="{{route('register')}}" class="small">Daftar</a>
-                                </div>
                                 {{-- <div class="text-center">
+                                    <a href="{{route('register.index')}}" class="small">Daftar</a>
+                                </div> --}}
+                                <div class="text-center">
                                     <a class="small" href="{{ route('indexAlumni') }}">Buat Akun Alumni!</a>
                                 </div>
                                 <div class="text-center">
                                     <a class="small" href="{{ route('indexPerusahaan') }}">Buat akun Perusahaan!</a>
-                                </div> --}}
+                                </div>
                             </div>
                         </div>
                     </div>
