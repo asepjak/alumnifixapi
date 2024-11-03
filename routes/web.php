@@ -53,12 +53,13 @@ Route::get('/alumni', [HomeController::class, 'indexAlumni'])->name('alumni'); /
 
 // Registration Routes
 Route::get('register-perusahaan', [RegisterController::class, 'indexPerusahaan'])->name('indexPerusahaan');
-Route::get('register-alumni', [RegisterController::class, 'indexAlumni'])->name('indexAlumni');
-// Route::get('register', [RegisterController::class, 'index'])->name('register.index'); // masi kacau di tampilan
+// Route::get('register-alumni', [RegisterController::class, 'indexAlumni'])->name('indexAlumni');
+Route::get('register', [RegisterController::class, 'index'])->name('register'); // masi kacau di tampilan
 Route::post('register', [RegisterController::class, 'register'])->name('register'); //done
-Route::post('register/alumni', [RegisterController::class, 'registerAlumni'])->name('register.alumni'); //done
+Route::get('register/alumni', [RegisterController::class, 'indexAlumni'])->name('register.alumni'); //done
+Route::post('register/alumni', [RegisterController::class, 'registerAlumni'])->name('register.alumni.submit');
 // Route::post('register/perusahaan', [RegisterController::class, 'registerPerusahaan'])->name('register.perusahaan'); //done
-Route::post('register-perusahaan', [RegisterController::class, 'registerPerusahaan'])->name('registerPerusahaan');
+Route::post('register-perusahaan', [RegisterController::class, 'registerPerusahaan'])->name('register.perusahaan');
 
 
 // Admin Routes
