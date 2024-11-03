@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
-use Illuminate\View\View;
+use App\Models\Admin;
+use App\Models\Alumni;
+use App\Models\Perusahaan;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class DashboardAdminController extends Controller
+class AdminDashboardController extends Controller
 {
     public function index(): View
     {
@@ -32,7 +34,4 @@ class DashboardAdminController extends Controller
 
         return view('pages.admin.dashboard', compact(['countAktif', 'countPasif', 'countMenunggu', 'countDitolak', 'countDiterima']));
     }
-
 }
-
-
