@@ -26,7 +26,7 @@
                                     </div>
                                 @endif
 
-                                <form action="{{ route('register.alumni') }}" method="POST" class="user">
+                                <form action="{{ route('register.alumni.index') }}" method="POST" class="user">
                                     @csrf
                                     <!-- Role (Hidden) -->
                                     <input type="hidden" name="role" value="1">
