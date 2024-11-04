@@ -3,73 +3,97 @@
 namespace App\Http\Controllers\Alumni;
 
 use App\Http\Controllers\Controller;
-use App\Models\Alumni;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-
-
-
-
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Log;
 
 class ProfileAlumniController extends Controller
 {
+    protected $client;
+
+    public function __construct()
+    {
+        $this->client = new Client();
+    }
+
     public function index($id_alumni)
     {
-        // Pass the alumni data to the view
-        return view('pages.alumni.profile', compact('alumni'));
+        // Fetch alumni data from the API
+        try {
+            $response = $this->client->request('GET', "http://127.0.0.1:8000/api/alumni/{$id_alumni}");
+            $alumni = json_decode($response->getBody()->getContents(), true);
+            return view('pages.alumni.profile', compact('alumni'));
+        } catch (\Exception $e) {
+            Log::error('Failed to fetch alumni data: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to fetch alumni data.');
+        }
+    }
+
+    public function edit($id_alumni)
+    {
+        // Fetch alumni data from the API for editing
+        try {
+            $response = $this->client->request('GET', "http://127.0.0.1:8000/api/alumni/{$id_alumni}");
+            $alumni = json_decode($response->getBody()->getContents(), true);
+            return view('pages.alumni.edit', compact('alumni')); // Ensure the edit view path is correct
+        } catch (\Exception $e) {
+            Log::error('Failed to fetch alumni data for edit for ID ' . $id_alumni . ': ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to fetch alumni data for editing.');
+        }
     }
 
     public function update(Request $request, $id_alumni)
-{
-    // $alumni = Alumni::findOrFail($id_alumni);
-    // $user = User::findOrFail($alumni->id_user);
+    {
+        // Validate incoming request data
+        $request->validate([
+            'nama_alumni' => 'required|string|max:255',
+            'email' => 'required|email',
+            'no_tlp' => 'required|string|max:15',
+            'alamat' => 'required|string|max:255',
+            'tanggal_lahir' => 'required|date',
+            'password' => 'nullable|string|min:8|confirmed',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
 
-    // $request->validate([
-    //     'nama_alumni' => 'required|string|max:255',
-    //     'email' => 'required|email|unique:users,email,' . $user->id,
-    //     'no_tlp' => 'required|string|max:15',
-    //     'alamat' => 'required|string|max:255',
-    //     'tanggal_lahir' => 'required|date|max:255',
-    //     'password' => 'nullable|string|min:8|confirmed',
-    //     'gambar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048', // Validation for image
-    // ]);
+        $data = $request->only(['nama_alumni', 'email', 'no_tlp', 'alamat', 'tanggal_lahir']);
 
-    // // Update alumni data
-    // $alumni->nama_alumni = $request->input('nama_alumni');
-    // $alumni->no_tlp = $request->input('no_tlp');
-    // $alumni->alamat = $request->input('alamat');
-    // $alumni->tanggal_lahir = $request->input('tanggal_lahir');
+        // Handle image upload
+        if ($request->hasFile('gambar')) {
+            // Store the image and get the path
+            $data['gambar'] = $request->file('gambar')->store('profile_images', 'public');
+        }
 
-    // // Update email only if it has changed
-    // if ($request->input('email') !== $user->email) {
-    //     $user->email = $request->input('email');
-    // }
+        // Send a PUT request to the API
+        try {
+            $response = $this->client->request('PUT', "http://127.0.0.1:8000/api/alumni/update/{$id_alumni}", [
+                'form_params' => $data,
+            ]);
 
-    // // Update password if provided
-    // if ($request->filled('password')) {
-    //     $user->password = Hash::make($request->input('password'));
-    // }
+            if (in_array($response->getStatusCode(), [200, 204])) {
+                return redirect()->route('alumni.profile', $id_alumni)->with('success', 'Alumni updated successfully.');
+            } else {
+                return redirect()->back()->with('error', 'Failed to update profile.');
+            }
+        } catch (\Exception $e) {
+            Log::error('Failed to update alumni profile: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'An error occurred while updating the profile.');
+        }
+    }
 
-    // // Handle image upload
-    // if ($request->hasFile('gambar')) {
-    //     // Delete the old image if it exists
-    //     if ($alumni->gambar) {
-    //         Storage::disk('public')->delete($alumni->gambar);
-    //     }
+    public function delete($id_alumni)
+    {
+        // Send a DELETE request to the API
+        try {
+            $response = $this->client->request('DELETE', "http://127.0.0.1:8000/api/delete-alumni/{$id_alumni}");
 
-    //     $file = $request->file('gambar');
-    //     // Save the new image
-    //     $gambarPath = $file->store('alumni', 'public');
-    //     $alumni->gambar = $gambarPath; // Update the alumni record with the new image path
-    // }
-
-    // // Save changes
-    // $user->save();
-    // $alumni->save();
-
-    return redirect()->back()->with('success', 'Alumni updated successfully');
-}
-
+            if ($response->getStatusCode() == 200) {
+                return redirect()->route('alumni.list')->with('success', 'Alumni deleted successfully.'); // Adjust the route as needed
+            } else {
+                return redirect()->back()->with('error', 'Failed to delete alumni profile.');
+            }
+        } catch (\Exception $e) {
+            Log::error('Failed to delete alumni profile: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'An error occurred while deleting the profile.');
+        }
+    }
 }

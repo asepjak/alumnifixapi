@@ -31,9 +31,10 @@
                     </div>
                 @endif
 
-                <form id="alumniProfileForm" method="POST" enctype="multipart/form-data">
+                <form id="alumniProfileForm" method="POST" action="{{ route('alumni.update', $alumni->id_alumni) }}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
+
                     <input type="hidden" name="id_alumni" value="{{ $alumni->id_alumni }}">
 
                     <div class="form-group">
@@ -53,32 +54,27 @@
 
                     <div class="form-group">
                         <label for="nama_alumni">Nama</label>
-                        <input type="text" class="form-control" id="nama_alumni" name="nama_alumni"
-                            value="{{ old('nama_alumni', $alumni->nama_alumni) }}" required>
+                        <input type="text" class="form-control" id="nama_alumni" name="nama_alumni" value="{{ old('nama_alumni', $alumni->nama_alumni) }}" required>
                     </div>
 
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" name="email"
-                            value="{{ old('email', $alumni->user->email) }}" required>
+                        <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $alumni->user->email) }}" required>
                     </div>
 
                     <div class="form-group">
                         <label for="no_tlp">Nomor HP</label>
-                        <input type="text" class="form-control" id="no_tlp" name="no_tlp"
-                            value="{{ old('no_tlp', $alumni->no_tlp) }}" required>
+                        <input type="text" class="form-control" id="no_tlp" name="no_tlp" value="{{ old('no_tlp', $alumni->no_tlp) }}" required>
                     </div>
 
                     <div class="form-group">
                         <label for="alamat">Alamat</label>
-                        <input type="text" class="form-control" id="alamat" name="alamat"
-                            value="{{ old('alamat', $alumni->alamat) }}" required>
+                        <input type="text" class="form-control" id="alamat" name="alamat" value="{{ old('alamat', $alumni->alamat) }}" required>
                     </div>
 
                     <div class="form-group">
                         <label for="tanggal_lahir">Tanggal Lahir</label>
-                        <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir"
-                            value="{{ old('tanggal_lahir', $alumni->tanggal_lahir) }}" required>
+                        <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" value="{{ old('tanggal_lahir', $alumni->tanggal_lahir) }}" required>
                     </div>
 
                     <div class="form-group">
@@ -107,7 +103,7 @@
                 const formData = new FormData(this); // Create a FormData object from the form
 
                 $.ajax({
-                    url: '{{ url("api/alumni/update") }}/' + $('input[name="id_alumni"]').val(), // Use Laravel's URL helper for better handling
+                    url: $(this).attr('action'), // Use the form action
                     type: 'PUT',
                     data: formData,
                     contentType: false, // Set content type to false to send FormData
@@ -115,7 +111,8 @@
                     success: function(response) {
                         // Handle success - You can show a success message or redirect
                         alert('Profile updated successfully!');
-                        location.reload(); // Reload the page to reflect changes
+                        // Optionally, you might want to redirect or reload the page
+                        window.location.href = response.redirect; // Assuming the response contains a redirect URL
                     },
                     error: function(xhr) {
                         // Handle error
