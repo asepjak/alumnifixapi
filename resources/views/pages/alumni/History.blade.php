@@ -12,5 +12,44 @@ History Alumni
                     class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
         </div>
 
+        <!-- Application History Table -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Application History</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>ID Lamaran</th>
+                                <th>Nama</th>
+                                <th>Email</th>
+                                <th>CV</th>
+                                <th>Transkrip Nilai</th>
+                                <th>Portofolio</th>
+                                <th>Status</th>
+                                <th>Tanggal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($applications as $application)
+                                <tr>
+                                    <td>{{ $application->id_lamaran }}</td>
+                                    <td>{{ $application->nama }}</td>
+                                    <td>{{ $application->email }}</td>
+                                    <td><a href="{{ asset('path/to/cv/'.$application->cv) }}">Download</a></td>
+                                    <td><a href="{{ asset('path/to/transkrip/'.$application->transkrip_nilai) }}">Download</a></td>
+                                    <td><a href="{{ asset('path/to/portopolio/'.$application->portopolio) }}">View</a></td>
+                                    <td>{{ $application->status }}</td>
+                                    <td>{{ $application->created_at->format('d-m-Y') }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
     </div>
 @endsection

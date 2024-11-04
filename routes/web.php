@@ -25,6 +25,7 @@ use App\Http\Controllers\Perusahaan\PerusahaanLowonganController;
 use App\Http\Middleware\CheckToken;
 use Illuminate\Support\Facades\Route;
 
+// Main Dashboard Route
 Route::get('/dashboard', function () {
     if (session()->has('token')) {
         $role = session('role');
@@ -39,32 +40,22 @@ Route::get('/dashboard', function () {
     return redirect()->route('login'); // Redirect to login if no token
 })->name('dashboard');
 
-Route::get('login', [LoginController::class, 'index'])->name('login'); //done
-Route::post('login', [LoginController::class, 'login'])->name('login.post'); //done
 // Authentication Routes
+Route::get('login', [LoginController::class, 'index'])->name('login'); // done
+Route::post('login', [LoginController::class, 'login'])->name('login.post'); // done
+
 Route::middleware(CheckToken::class)->group(function () {
-    Route::post('logout', [AuthController::class, 'logout'])->name('logout'); //done
+    Route::post('logout', [AuthController::class, 'logout'])->name('logout'); // done
 });
 
 // Public Routes
 Route::get('/', [HomeController::class, 'indexHome'])->name('home');
-// Route::get('/loker', [HomeController::class, 'indexLoker'])->name('loker'); //done
-Route::get('/alumni', [HomeController::class, 'indexAlumni'])->name('alumni'); //done
-
-// Registration Routes
-// Route::get('register-perusahaan', [RegisterController::class, 'indexPerusahaan'])->name('indexPerusahaan');
-// // Route::get('register-alumni', [RegisterController::class, 'indexAlumni'])->name('indexAlumni');
-// Route::get('register', [RegisterController::class, 'index'])->name('register'); // masi kacau di tampilan
-// Route::post('register', [RegisterController::class, 'register'])->name('register.submit'); //done
-// Route::get('register/alumni', [RegisterController::class, 'indexAlumni'])->name('register.alumni'); //done
-// Route::post('register/alumni', [RegisterController::class, 'registerAlumni'])->name('register.alumni.submit');
-// Route::post('register-perusahaan', [RegisterController::class, 'registerPerusahaan'])->name('register.perusahaan'); //done
+Route::get('/alumni', [HomeController::class, 'indexAlumni'])->name('alumni'); // done
 
 // Registration Routes
 Route::prefix('register')->group(function () {
-    // General user registration
-    Route::get('/', [RegisterController::class, 'index'])->name('register.index');
-    Route::post('/', [RegisterController::class, 'register'])->name('register.submit');
+    Route::get('/', [RegisterController::class, 'index'])->name('register.index'); // Registration page
+    Route::post('/', [RegisterController::class, 'register'])->name('register.submit'); // Registration action
 
     // Alumni registration
     Route::get('/alumni', [RegisterController::class, 'indexAlumni'])->name('register.alumni.index');
@@ -75,61 +66,44 @@ Route::prefix('register')->group(function () {
     Route::post('/perusahaan', [RegisterController::class, 'registerPerusahaan'])->name('register.perusahaan.submit');
 });
 
-
-
 // Admin Routes
 Route::prefix('admin')->group(function () {
-
-    //Tracer
-    Route::get('tracer', [AdminTracerController::class, 'index'])->name('tracer.index'); //done
-
-    //edit atmin
-    // Route::get('edit-admin',[AdminController::class, 'indexEditProfile'])->name('edit-admin.index');
-
-    Route::get('dashboard', [DashboardAdminController::class, 'index'])->name('dashboardAdmin'); // done
+    Route::get('dashboard', [DashboardAdminController::class, 'index'])->name('dashboardAdmin'); // Admin dashboard
 
     // Alumni Management
-    Route::get('alumni-aktif', [AdminAlumniController::class, 'alumniAktif'])->name('alumni-aktif'); //done
-    Route::get('alumni-pasif', [AdminAlumniController::class, 'alumniPasif'])->name('alumni-pasif'); //done
+    Route::get('alumni-aktif', [AdminAlumniController::class, 'alumniAktif'])->name('alumni-aktif'); // Active alumni
+    Route::get('alumni-pasif', [AdminAlumniController::class, 'alumniPasif'])->name('alumni-pasif'); // Inactive alumni
 
     // Perusahaan Management
-    Route::get('perusahaan-diterima', [AdminPerusahaanController::class, 'perusahaanDiterima'])->name('perusahaan-diterima'); //done
-    Route::get('perusahaan-divalidasi', [AdminPerusahaanController::class, 'perusahaanDivalidasi'])->name('perusahaan-divalidasi'); //done
+    Route::get('perusahaan-diterima', [AdminPerusahaanController::class, 'perusahaanDiterima'])->name('perusahaan-diterima'); // Accepted companies
+    Route::get('perusahaan-divalidasi', [AdminPerusahaanController::class, 'perusahaanDivalidasi'])->name('perusahaan-divalidasi'); // Validated companies
 
     // Lowongan Management
-    Route::get('lowongan-diterima', [AdminLowonganController::class, 'lowonganDiterima'])->name('lowongan-diterima'); //done
-    Route::get('lowongan-divalidasi', [AdminLowonganController::class, 'lowonganDivalidasi'])->name('lowongan-divalidasi'); //done
-
-
-    // Pertanyaan Management
-    // Route::get('pertanyaan', [AdminPertanyaanController::class, 'pertanyaan'])->name('pertanyaan.index'); //done
-
-    // Tracer
-    // Route::get('tracer', [AdminTracerController::class, 'tracer'])->name('tracer.index'); //done
+    Route::get('lowongan-diterima', [AdminLowonganController::class, 'lowonganDiterima'])->name('lowongan-diterima'); // Accepted job openings
+    Route::get('lowongan-divalidasi', [AdminLowonganController::class, 'lowonganDivalidasi'])->name('lowongan-divalidasi'); // Validated job openings
 
     // Berita Management
-    Route::get('berita', [BeritaController::class, 'index'])->name('berita.index'); //done
-    Route::post('berita-tambah', [BeritaController::class, 'tambahData'])->name('berita.tambah'); //done
-    Route::put('berita/{id}', [BeritaController::class, 'updateData'])->name('berita.update'); //done
-    Route::delete('berita/delete/{id}', [BeritaController::class, 'deleteData'])->name('berita.delete'); //done
+    Route::get('berita', [BeritaController::class, 'index'])->name('berita.index'); // News index
+    Route::post('berita-tambah', [BeritaController::class, 'tambahData'])->name('berita.tambah'); // Add news
+    Route::put('berita/{id}', [BeritaController::class, 'updateData'])->name('berita.update'); // Update news
+    Route::delete('berita/delete/{id}', [BeritaController::class, 'deleteData'])->name('berita.delete'); // Delete news
 });
 
 // Perusahaan Routes
 Route::prefix('perusahaan')->group(function () {
-    Route::get('lowongan', [PerusahaanLowonganController::class, 'lowongan'])->name('lowongan.index'); //done
-    Route::post('lowongan/tambah', [PerusahaanLowonganController::class, 'store'])->name('lowongan.store'); //done
-    Route::get('dashboard', [PerusahaanController::class, 'index'])->name('dashboardperusahaan.index'); // tidak ada fungsiny
+    Route::get('lowongan', [PerusahaanLowonganController::class, 'lowongan'])->name('lowongan.index'); // Company job openings
+    Route::post('lowongan/tambah', [PerusahaanLowonganController::class, 'store'])->name('lowongan.store'); // Add job opening
+    Route::get('dashboard', [PerusahaanController::class, 'index'])->name('dashboardperusahaan.index'); // Company dashboard
 });
 
-//Alumni
-
-Route::get('lamaran', [AlumniLamaranController::class, 'index'])->name('lamaran.index'); //done
-Route::get('dashboard', [DashboardAlumniController::class, 'index'])->name('dashboard.index');
-Route::get('history', [HistoryAlumniController::class, 'index'])->name('history.index');
-Route::get('job', [JobAlumniController::class, 'index'])->name('job.index');
-Route::get('edit-profile', [ProfileAlumniController::class, 'index'])->name('profile.index');
-Route::get('tracer', [TracerAlumniController::class, 'index'])->name('tracer.index');
-
-
-
+// Alumni Routes
+Route::prefix('alumni')->group(function () {
+    Route::get('dashboard', [DashboardAlumniController::class, 'index'])->name('dashboard.alumni'); // Alumni dashboard
+    Route::get('profile', [ProfileAlumniController::class, 'index'])->name('alumni.profile'); // Alumni profile
+    Route::get('/lamaran/alumni', [LamaranAlumniController::class, 'index'])->middleware(['auth', 'verified'])->name('lamaran.alumni');
+    Route::get('/history/lamaran', [HistoryAlumniController::class, 'index'])->name('history.lamaran');
+    Route::get('/job/save', [JobAlumniController::class, 'index'])->name('job');
+    Route::get('edit-profile', [ProfileAlumniController::class, 'index'])->name('profile.index'); // Edit profile
+    Route::get('tracer', [TracerAlumniController::class, 'index'])->name('tracer.index'); // Tracer alumni
+});
 
