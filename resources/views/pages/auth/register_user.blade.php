@@ -48,7 +48,7 @@
 
                                     <!-- Common Fields for Admin and Alumni -->
                                     <div id="commonFields" style="display: none;">
-                                        <div class="form-group">
+                                        {{-- <div class="form-group">
                                             <input type="text" class="form-control form-control-user @error('username') is-invalid @enderror"
                                                 name="username" value="{{ old('username') }}" placeholder="Username">
                                             @error('username')
@@ -56,7 +56,7 @@
                                                     <strong>{{ $message }}</strong>
                                                 </span>
                                             @enderror
-                                        </div>
+                                        </div> --}}
 
                                         <div class="form-group">
                                             <input type="text" class="form-control form-control-user @error('name') is-invalid @enderror"
