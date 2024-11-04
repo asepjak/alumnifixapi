@@ -14,6 +14,7 @@ class RegisterController extends Controller
     {
         return view('pages.auth.register_user');
     }
+
     public function indexAlumni(): View
     {
         return view('pages.auth.register_alumni');
@@ -24,137 +25,74 @@ class RegisterController extends Controller
         return view('pages.auth.register_perusahaan');
     }
 
-    // public function register(Request $request) {
-
-    //     $response = Http::attach('foto', fopen($request->file('foto')->getRealPath(), 'r'), $request->file('foto')->getClientOriginalName())
-    //     ->post('https://raishaapi3.v-project.my.id/api/register', $request->all());
-
-    //     if ($response->successful()) {
-    //         // Process if registration is successful
-    //         $responseData = $response->json(); // Get JSON data from response
-
-    //         // Save token and role in session
-    //         session(['token' => $responseData['token']]); // Save token
-    //         session(['role' => $responseData['user']['role']]); // Save role
-    //         session(['username' => $responseData['user']['username']]); // Save username
-    //         session(['nama' => $responseData['user']['nama_alumni']]); // Save alumni name
-
-    //         // Redirect to alumni dashboard
-    //         return redirect()->route('alumni.dashboard')->with('success', 'Registration successful, please login.');
-    //     } else {
-    //         // Log the error response from the API
-    //         Log::error('Registration failed', [
-    //             'response_status' => $response->status(),
-    //             'response_data' => $response->json(),
-    //         ]);
-
-    //         // Handle API error response
-    //         $errorMessage = $response->json()['message'] ?? 'Registration failed';
-    //         $additionalErrors = $response->json()['errors'] ?? []; // Assuming the API returns detailed errors
-
-    //         // Create an array to store all errors
-    //         $allErrors = [$errorMessage];
-
-    //         // Merge additional errors if any
-    //         if (is_array($additionalErrors) && count($additionalErrors) > 0) {
-    //             foreach ($additionalErrors as $key => $messages) {
-    //                 if (is_array($messages)) {
-    //                     $allErrors = array_merge($allErrors, $messages);
-    //                 } else {
-    //                     $allErrors[] = $messages;
-    //                 }
-    //             }
-    //         }
-
-    //         // Return back with all errors
-    //         return back()->withErrors(['registration_error' => $allErrors]);
-    //     }
-    // }
-
     public function registerAlumni(Request $request)
     {
-        // Validate data request
+        // Validate request data
         $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'nama_alumni' => 'required|string|max:255',
-            'nim' => 'required|string|max:10',
+            'role' => 'required|in:1', // Role for alumni
+            'name' => 'required|string|max:255',
             'angkatan' => 'required|string',
-            'tanggal_lahir' => 'required|date',
+            'nomor_induk' => 'required|string|max:10',
             'alamat' => 'required|string',
             'no_tlp' => 'required|string',
             'email' => 'required|email|unique:alumni',
-            'foto' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'status' => 'required|in:aktif,pasif',
+            // 'foto' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Prepare data for API consumption
         $data = [
             'user_id' => $request->user_id,
-            'nama_alumni' => $request->nama_alumni,
+            'name' => $request->name,
             'angkatan' => $request->angkatan,
-            'tanggal_lahir' => $request->tanggal_lahir,
             'alamat' => $request->alamat,
             'no_tlp' => $request->no_tlp,
             'email' => $request->email,
-            'status' => $request->status,
+            'role' => 1, // Set role for alumni
         ];
 
-        // Consume API for alumni registration
-        $response = Http::attach('foto', fopen($request->file('foto')->getRealPath(), 'r'), $request->file('foto')->getClientOriginalName())
-            ->post(env('API_BASE_URL') . '/api/auth/register-alumni', $data);
+        // Send data to API
+        try {
+            $response = Http::attach('foto', fopen($request->file('foto')->getRealPath(), 'r'), $request->file('foto')->getClientOriginalName())
+                ->post(env('API_BASE_URL') . '/api/auth/register-alumni', $data);
 
-        // Check for successful response
-        if ($response->successful()) {
-            // Process if registration is successful
-            $data = $response->json(); // Get JSON data from response
+            // Check for successful response
+            if ($response->successful()) {
+                // Process if registration is successful
+                $data = $response->json(); // Get JSON data from response
 
-            // Save token and role in session
-            session(['token' => $data['token']]); // Save token
-            session(['role' => $data['user']['role']]); // Save role
-            session(['username' => $data['user']['username']]); // Save username
-            session(['nama' => $data['nama_alumni']]); // Save username
+                // Save token and role in session
+                session(['token' => $data['token']]);
+                session(['role' => $data['user']['role']]);
+                // session(['username' => $data['user']['username']]);
+                session(['name' => $data['name']]);
 
-            // Show response information on dashboard page
-            return view('pages.alumni.dashboard', ['user' => $data['user']]); // Send user data to view
-        } else {
-            // Log the error response from the API
-            Log::error('Registration failed', [
-                'response_status' => $response->status(),
-                'response_data' => $response->json(),
-            ]);
+                // Display user data on dashboard page
+                return view('pages.alumni.dashboard', ['user' => $data['user']]);
+            } else {
+                // Log error response from API
+                Log::error('Registration failed', [
+                    'response_status' => $response->status(),
+                    'response_data' => $response->json(),
+                ]);
 
-            // Handle API error response
-            $errorMessage = $response->json()['message'] ?? 'Registration failed';
-            $additionalErrors = $response->json()['errors'] ?? []; // Assuming the API returns detailed errors
-
-            // Create an array to store all errors
-            $allErrors = [$errorMessage];
-
-            // Merge additional errors if any
-            if (is_array($additionalErrors) && count($additionalErrors) > 0) {
-                // Flatten the errors array if it is structured with keys
-                foreach ($additionalErrors as $key => $messages) {
-                    if (is_array($messages)) {
-                        $allErrors = array_merge($allErrors, $messages);
-                    } else {
-                        $allErrors[] = $messages;
-                    }
-                }
+                // Handle API error response
+                return $this->handleApiError($response);
             }
-
-            // Return back with all errors
-            return back()->withErrors(['registration_error' => $allErrors]);
+        } catch (\Exception $e) {
+            Log::error('Server Error', ['exception' => $e->getMessage()]);
+            return back()->withErrors(['registration_error' => ['Terjadi kesalahan server. Silakan coba lagi nanti.']]);
         }
     }
 
     public function registerPerusahaan(Request $request)
     {
-        // Validasi input pengguna
+        // Validate user input
         $request->validate([
-            'username' => 'required|string',
-            'email' => 'required|string|email|max:255',
+            'role' => 'required|in:2', // Role for company
+            'username' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:perusahaan,email',
             'nama_perusahaan' => 'required|string|max:255',
-            'nib' => 'required|string',
+            'nib' => 'required|string|max:255',
             'sektor_bisnis' => 'required|string|max:255',
             'deskripsi_perusahaan' => 'required|string',
             'jumlah_karyawan' => 'required|integer',
@@ -164,7 +102,7 @@ class RegisterController extends Controller
             'password' => 'required|string|confirmed|min:8',
         ]);
 
-        // Menyusun data untuk dikirim ke API
+        // Prepare data to be sent to API
         $data = [
             'username' => $request->username,
             'email' => $request->email,
@@ -178,46 +116,61 @@ class RegisterController extends Controller
             'website_perusahaan' => $request->website_perusahaan,
             'password' => $request->password,
             'password_confirmation' => $request->password_confirmation,
+            'role' => 2, // Set role for company
         ];
 
         try {
-            // Kirim permintaan ke API
+            // Send request to API
             $response = Http::post(env('API_BASE_URL') . '/api/auth/register-perusahaan', $data);
 
-            // Memeriksa keberhasilan respons
+            // Check for successful response
             if ($response->successful()) {
                 $responseData = $response->json();
 
-                // Simpan data session yang relevan
+                // Save relevant session data
                 session([
                     'token' => $responseData['token'],
                     'role' => $responseData['user']['role'],
-                    'username' => $responseData['user']['username'],
-                    'nama_perusahaan' => $responseData['perusahaan']['nama_perusahaan'],
+                    // 'username' => $responseData['user']['username'],
+                    'nama_perusahaan' => $responseData['perusahaan']['name'],
                 ]);
 
-                return redirect()->route('dashboard')->with('success', 'Perusahaan registered successfully');
+                return redirect()->route('dashboard')->with('success', 'Perusahaan berhasil didaftarkan.');
             } else {
                 Log::error('Registration failed', [
                     'response_status' => $response->status(),
                     'response_data' => $response->json(),
                 ]);
 
-                $errorMessage = $response->json()['message'] ?? 'Registration failed';
-                $additionalErrors = $response->json()['errors'] ?? [];
-
-                $allErrors = [$errorMessage];
-                if (is_array($additionalErrors) && count($additionalErrors) > 0) {
-                    foreach ($additionalErrors as $key => $messages) {
-                        $allErrors = is_array($messages) ? array_merge($allErrors, $messages) : array_merge($allErrors, [$messages]);
-                    }
-                }
-
-                return redirect()->back()->withErrors(['registration_error' => $allErrors]);
+                return $this->handleApiError($response);
             }
         } catch (\Exception $e) {
             Log::error('Server Error', ['exception' => $e->getMessage()]);
-            return redirect()->back()->withErrors(['registration_error' => ['Server error occurred. Please try again later.']]);
+            return redirect()->back()->withErrors(['registration_error' => ['Terjadi kesalahan server. Silakan coba lagi nanti.']]);
         }
+    }
+
+    private function handleApiError($response)
+    {
+        // Handle API error response
+        $errorMessage = $response->json()['message'] ?? 'Registration failed';
+        $additionalErrors = $response->json()['errors'] ?? []; // Assuming the API returns detailed errors
+
+        // Create an array to store all errors
+        $allErrors = [$errorMessage];
+
+        // Merge additional errors if any
+        if (is_array($additionalErrors) && count($additionalErrors) > 0) {
+            foreach ($additionalErrors as $key => $messages) {
+                if (is_array($messages)) {
+                    $allErrors = array_merge($allErrors, $messages);
+                } else {
+                    $allErrors[] = $messages;
+                }
+            }
+        }
+
+        // Return back with all errors
+        return back()->withErrors(['registration_error' => $allErrors]);
     }
 }
