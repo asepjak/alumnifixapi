@@ -233,9 +233,9 @@
             </div>
         </div>
     </div>
-@endsection
 
-@push('scripts')
+
+
 <script>
 function toggleFields() {
     const userType = document.getElementById('userType').value;
@@ -313,4 +313,4 @@ if (typeof Swal !== 'undefined') {
     }
 }
 </script>
-@endpush
+@endsection
