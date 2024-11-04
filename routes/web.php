@@ -100,7 +100,6 @@ Route::prefix('perusahaan')->group(function () {
 Route::prefix('alumni')->group(function () {
     Route::get('dashboard', [DashboardAlumniController::class, 'index'])->name('dashboard.alumni'); // Alumni dashboard
     Route::get('profile', [ProfileAlumniController::class, 'index'])->name('alumni.profile'); // Alumni profile
-    Route::get('/lamaran/alumni', [LamaranAlumniController::class, 'index'])->middleware(['auth', 'verified'])->name('lamaran.alumni');
     Route::get('/history/lamaran', [HistoryAlumniController::class, 'index'])->name('history.lamaran');
     Route::get('/job/save', [JobAlumniController::class, 'index'])->name('job');
     Route::get('edit-profile', [ProfileAlumniController::class, 'index'])->name('profile.index'); // Edit profile

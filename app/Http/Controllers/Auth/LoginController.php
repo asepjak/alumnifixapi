@@ -37,7 +37,7 @@ class LoginController extends Controller
         if ($data['user']['role'] === 0) {
             return redirect()->route('dashboardAdmin')->with('message', $data['message']);
         } elseif ($data['user']['role'] === 1) {
-            return redirect()->route('dashboardAlumni')->with('message', $data['message']);
+            return redirect()->route('dashboard.alumni')->with('message', $data['message']);
         } elseif ($data['user']['role'] === 2) {
             return redirect()->route('dashboardPerusahaan')->with('message', $data['message']);
         }
