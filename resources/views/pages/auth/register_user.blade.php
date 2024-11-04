@@ -40,7 +40,6 @@
                                     <div class="form-group mb-4">
                                         <select name="user_type" id="userType" class="form-control form-select">
                                             <option value="">Pilih Tipe User</option>
-                                            <option value="0">Admin</option>
                                             <option value="1">Alumni</option>
                                             <option value="2">Perusahaan</option>
                                         </select>
@@ -48,16 +47,6 @@
 
                                     <!-- Common Fields for Admin and Alumni -->
                                     <div id="commonFields" style="display: none;">
-                                        {{-- <div class="form-group">
-                                            <input type="text" class="form-control form-control-user @error('username') is-invalid @enderror"
-                                                name="username" value="{{ old('username') }}" placeholder="Username">
-                                            @error('username')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div> --}}
-
                                         <div class="form-group">
                                             <input type="text" class="form-control form-control-user @error('name') is-invalid @enderror"
                                                 name="name" value="{{ old('name') }}" placeholder="Nama Lengkap">
